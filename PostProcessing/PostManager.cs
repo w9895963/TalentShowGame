@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
+//
+//
+//
+
 [ExecuteInEditMode]
 public class PostManager : MonoBehaviour {
     public bool editorMode;
