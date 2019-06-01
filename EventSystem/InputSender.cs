@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using BasicTools.ButtonInspector;
 using UnityEngine;
 using static InputManager;
 
@@ -13,38 +14,33 @@ public class InputSender : MonoBehaviour {
     public GameObject[] targets = new GameObject[1];
 
     public InputType[] inputTypes = new InputType[1];
-    public DebugAndTest debugAndTest;
 
 
-    void OnValidate () {
-        if (debugAndTest.send) {
-            debugAndTest.send = false;
-            SendInput (targets, new InputType[] { debugAndTest.inputType }, ref debugAndTest.log, true);
-        }
+    public DebugAndTest debug;
 
-    }
+
     void Start () {
 
     }
 
 
     void Update () {
-        if (debugAndTest.enableLog) SendInput (targets, inputTypes, ref debugAndTest.log);
-        else {
+        if (debug.enableLog) {
+            SendInput (targets, inputTypes, ref debug.log);
+        } else {
             SendInput (targets, inputTypes);
-            debugAndTest.log = "";
+            debug.log = "";
         }
 
     }
 
 
-    private static void _SendInput (GameObject[] targets, InputType[] inputTypes, ref string log, bool testMod = false) {
-
+    public static void SendInput (GameObject[] targets, InputType[] inputTypes, ref string log, bool forceSend = false) {
         if (targets.Length > 0) {
             string logTemp = "";
             int count = 0;
 
-            bool isInput = testMod?true : false;
+            bool isInput = forceSend?true : false;
             foreach (InputType ty in inputTypes) {
                 bool keydown = Input.GetKeyDown (keyMap[ty]);
                 bool keyup = Input.GetKeyUp (keyMap[ty]);
@@ -74,7 +70,7 @@ public class InputSender : MonoBehaviour {
                         Array.ForEach (com.eventSetup, e => {
                             if (e.inputType == ty) {
 
-                                if (!testMod) {
+                                if (!forceSend) {
                                     bool keydown = Input.GetKeyDown (keyMap[ty]);
                                     if (keydown) {
                                         e.keyDown.Invoke ();
@@ -105,12 +101,9 @@ public class InputSender : MonoBehaviour {
     }
     public static void SendInput (GameObject[] targets, InputType[] inputTypes) {
         string s = "";
-        _SendInput (targets, inputTypes, ref s);
+        SendInput (targets, inputTypes, ref s);
     }
-    public static void SendInput (GameObject[] targets, InputType[] inputTypes, ref string log, bool testMod = false) {
-        _SendInput (targets, inputTypes, ref log, testMod);
 
-    }
 
     public static GameObject[] FilterActives (GameObject[] objectArray) {
         return Array.FindAll (objectArray, ob => {
@@ -132,12 +125,23 @@ public class InputSender : MonoBehaviour {
 
     }
 
+
+    public void Button_ForceSend () {
+        SendInput (targets, new InputType[] { debug.inputType }, ref debug.log, true);
+    }
+
     [Serializable]
     public class DebugAndTest {
-        public bool enableLog;
+
+        [Button ("Force Send", "Button_ForceSend")]
         public bool send;
+        public bool enableLog;
+
         public InputType inputType;
+
         [Multiline (5)]
         public string log;
+
+
     }
 }
