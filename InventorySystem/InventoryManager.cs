@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour {
-//背包功能模块
+    //背包功能模块
 
 
     [SerializeField]
@@ -24,12 +24,14 @@ public class InventoryManager : MonoBehaviour {
     void Update () {
 
         _inventoryItems = inventoryItems.ToArray ();
-        TestPart ();
+
     }
 
 
     private void OnValidate () {
-        inventoryItems = new List<Item> (_inventoryItems);
+
+        TestPart ();
+        _inventoryItems = inventoryItems.ToArray ();
     }
     private void TestPart () {
         if (test.addItem) {
@@ -78,35 +80,40 @@ public class InventoryManager : MonoBehaviour {
     }
     public static void AddItem (GameObject obj) {
 
-        GameObject itemPrefab = obj.GetComponent<ItemAttribute> ().itemPrefab;
-        Item findItem = inventoryItems.Find (x => x.prefab == itemPrefab);
+        GameObject itemPrefab = obj?.GetComponent<ItemAttribute> ()?.itemPrefab;
+
+        if (itemPrefab != null) {
+            Item findItem = inventoryItems.Find (x => x.prefab == itemPrefab);
 
 
-        if (obj.GetComponent<ItemAttribute> ().stackable & findItem != null) {
-            findItem.number += 1;
-        } else {
-            inventoryItems.Add (new Item (itemPrefab));
+            if (obj.GetComponent<ItemAttribute> ().stackable & findItem != null) {
+                findItem.number += 1;
+            } else {
+                inventoryItems.Add (new Item (itemPrefab));
+            }
         }
 
     }
     public static void AddItem (GameObject obj, int number) {
 
-        GameObject itemPrefab = obj.GetComponent<ItemAttribute> ().itemPrefab;
-        Item findItem = inventoryItems.Find (x => x.prefab == itemPrefab);
+        GameObject itemPrefab = obj?.GetComponent<ItemAttribute> ()?.itemPrefab;
 
+        if (itemPrefab != null) {
+            Item findItem = inventoryItems.Find (x => x.prefab == itemPrefab);
 
-        if (obj.GetComponent<ItemAttribute> ().stackable) {
-            if (findItem != null) {
-                findItem.number += number;
+            if (obj.GetComponent<ItemAttribute> ().stackable) {
+                if (findItem != null) {
+                    findItem.number += number;
+                } else {
+                    inventoryItems.Add (new Item (itemPrefab, number));
+                }
+
             } else {
-                inventoryItems.Add (new Item (itemPrefab, number));
-            }
+                for (int i = 0; i < number; i++) {
+                    inventoryItems.Add (new Item (itemPrefab));
+                }
 
-        } else {
-            for (int i = 0; i < number; i++) {
-                inventoryItems.Add (new Item (itemPrefab));
             }
-
         }
 
     }
