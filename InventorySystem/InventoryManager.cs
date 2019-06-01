@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour {
 //背包功能模块
+
+
     [SerializeField]
     private Item[] _inventoryItems = new Item[0];
     private static List<Item> inventoryItems;
