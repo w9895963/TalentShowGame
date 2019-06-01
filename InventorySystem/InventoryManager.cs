@@ -6,8 +6,8 @@ using System.Xml.Linq;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour {
-//提交
-
+//提交2
+//
     [SerializeField]
     private Item[] _inventoryItems = new Item[0];
     private static List<Item> inventoryItems;
