@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour {
-
+//提交
 
     [SerializeField]
     private Item[] _inventoryItems = new Item[0];
