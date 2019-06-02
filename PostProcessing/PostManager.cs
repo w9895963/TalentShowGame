@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 //
 //
-//
+
 
 [ExecuteInEditMode]
 public class PostManager : MonoBehaviour {
