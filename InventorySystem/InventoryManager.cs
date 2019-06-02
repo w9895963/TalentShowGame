@@ -11,7 +11,7 @@ public class InventoryManager : MonoBehaviour {
 
     [SerializeField]
     private Item[] _inventoryItems = new Item[0];
-    private static List<Item> inventoryItems;
+    private static List<Item> inventoryItems = new List<Item>();
     [SerializeField]
     private DebugAndTest test = new DebugAndTest ();
 
@@ -81,6 +81,7 @@ public class InventoryManager : MonoBehaviour {
     public static void AddItem (GameObject obj) {
 
         GameObject itemPrefab = obj?.GetComponent<ItemAttribute> ()?.itemPrefab;
+        
 
         if (itemPrefab != null) {
             Item findItem = inventoryItems.Find (x => x.prefab == itemPrefab);
