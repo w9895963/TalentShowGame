@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using BasicTools.ButtonInspector;
 using UnityEngine;
 using static InputManager;
 
@@ -22,7 +19,12 @@ public class InputSender : MonoBehaviour {
     void Start () {
 
     }
-
+    void OnValidate () {
+        if (debug.send) {
+            debug.send = false;
+            SendInput (targets, new InputType[] { debug.inputType }, ref debug.log, true);
+        }
+    }
 
     void Update () {
         if (debug.enableLog) {
@@ -125,15 +127,8 @@ public class InputSender : MonoBehaviour {
 
     }
 
-
-    public void Button_ForceSend () {
-        SendInput (targets, new InputType[] { debug.inputType }, ref debug.log, true);
-    }
-
     [Serializable]
     public class DebugAndTest {
-
-        [Button ("Force Send", "Button_ForceSend")]
         public bool send;
         public bool enableLog;
 

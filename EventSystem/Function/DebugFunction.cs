@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DebugFunction : MonoBehaviour {
-//
+    //
 
     public void _Log (string st) {
         Debug.Log (st);
