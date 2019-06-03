@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using static FlowEvent;
 
-public class AnimationEvent : StateMachineBehaviour {
+public class FlowAnimationBasic : StateMachineBehaviour {
 
    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
    override public void OnStateEnter (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -13,7 +13,6 @@ public class AnimationEvent : StateMachineBehaviour {
 
       com.UpdateCurrentFlow (stateInfo);
 
-      // animator.GetComponent<FlowManager> ().CallEnterEvent ();
       com.CallEvent (com.currentFlow, FlowEventType.OnEnter);
 
    }
@@ -27,7 +26,6 @@ public class AnimationEvent : StateMachineBehaviour {
    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
    override public void OnStateExit (Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
       FlowManager com = animator.GetComponent<FlowManager> ();
-      //   com.CallExitEvent ();
 
       com.CallEvent (com.currentFlow,FlowEventType.OnExit);
 

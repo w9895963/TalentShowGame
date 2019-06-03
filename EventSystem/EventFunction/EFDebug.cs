@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DebugFunction : MonoBehaviour {
+public class EFDebug : MonoBehaviour {
     //
 
     public void _Log (string st) {
