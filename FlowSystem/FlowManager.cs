@@ -7,6 +7,7 @@ using static FlowEvent;
 
 
 public class FlowManager : MonoBehaviour {
+    public GameObject obj;
     public GameObject currentFlow;
     public GameObject previousFlow;
 
@@ -15,7 +16,6 @@ public class FlowManager : MonoBehaviour {
 
 
     void Start () {
-
 
         allFlow =
             GetComponentsInChildren<FlowEvent> ()
@@ -27,6 +27,7 @@ public class FlowManager : MonoBehaviour {
         UpdatePreviousFlow ();
 
         UpdateObjectsActive ();
+
 
     }
 
@@ -40,10 +41,8 @@ public class FlowManager : MonoBehaviour {
         }
     }
 
-    private GameObject GetCurrentFlowObject () {
-        return Array.Find (allFlow, x => GetComponent<Animator> ()
-            .GetCurrentAnimatorStateInfo (0)
-            .IsName (x.name));
+    private void OnValidate () {
+
     }
 
 
@@ -77,44 +76,30 @@ public class FlowManager : MonoBehaviour {
     }
 
 
-    public void CallEvent (GameObject obj, Action<FlowEvent> callback) {
-        var eventsActive = obj?.GetComponents<FlowEvent> ().ToList ()
-            .FindAll (e =>
-                e.enabled);
-
-        eventsActive?.ForEach (e => {
-
-            var filterList =
-                e.flowTest.ToList ()
-                .FindAll (x =>
-                    x != default (GameObject));
-
-            if (filterList.Exists (x =>
-                    x == previousFlow) |
-                filterList.Count == 0) {
-
-                callback (e);
-
-            };
-        });
-
-    }
     public void CallEvent (GameObject obj, FlowEventType et) {
-        var eventsActive = obj?.GetComponents<FlowEvent> ().ToList ()
+
+
+        var getAllActiveEvents =
+            obj.GetComponents<FlowEvent> ().ToList ()
             .FindAll (e =>
                 e.enabled);
 
-        eventsActive?.ForEach (e => {
 
-            var filterList =
-                e.flowTest.ToList ()
-                .FindAll (x =>
-                    x != default (GameObject));
+        getAllActiveEvents.ForEach (e => {
 
-            if (filterList.Exists (x =>
-                    x == previousFlow) |
-                filterList.Count == 0) {
+            bool testResult = true;
 
+            if (e.enableEnterTest &
+                !e.allowEnterFlow.ToList ()
+                .Exists (x =>
+                    x == previousFlow
+                )
+            ) {
+
+                testResult = false;
+            }
+
+            if (testResult) {
 
                 if (et == FlowEventType.OnEnter)
                     e.onEnter.Invoke ();
@@ -123,6 +108,7 @@ public class FlowManager : MonoBehaviour {
 
             };
         });
+
 
     }
 

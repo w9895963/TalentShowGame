@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class FlowEvent : MonoBehaviour {
-    public GameObject[] flowTest;
+    public bool enableEnterTest;
+    public GameObject[] allowEnterFlow;
     public UnityEvent onEnter;
     public UnityEvent onExit;
 
