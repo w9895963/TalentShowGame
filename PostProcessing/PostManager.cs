@@ -4,10 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-//
-//
-
-
 [ExecuteInEditMode]
 public class PostManager : MonoBehaviour {
     public bool editorMode;
@@ -25,7 +21,6 @@ public class PostManager : MonoBehaviour {
     public int height;
 
     void Start () {
-        // Debug.Log(789);
         renderCamera = renderCamera == null? Camera.main : renderCamera;
         postCamera.enabled = true;
 
@@ -36,7 +31,7 @@ public class PostManager : MonoBehaviour {
 
         if (t.height != postCamera.pixelHeight * renderMultipler | t.width != postCamera.pixelWidth * renderMultipler) {
 
-            if (editorMode?true : Application.isPlaying) {
+            if (editorMode | Application.isPlaying) {
 
 
                 ApplyTexture ();
@@ -58,7 +53,9 @@ public class PostManager : MonoBehaviour {
 
     private void OnDisable () {
         //Debug.Log (123);
-        renderCamera.targetTexture = null;
+        if (renderCamera != null)
+            renderCamera.targetTexture = null;
+
         postCamera.enabled = false;
     }
 

@@ -18,7 +18,11 @@ public class SortObject : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+
+        sortGameObjects.RemoveAll (x => x == null);
+
         sortGameObjects.Sort (delegate (GameObject j1, GameObject j2) {
+
             return j1.transform.position.y < j2.transform.position.y ? 1 : -1;
         });
         for (int i = 0; i < sortGameObjects.Count; i++) {

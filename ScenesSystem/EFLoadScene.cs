@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class EFChangeScence : MonoBehaviour {
+public class EFLoadScene : MonoBehaviour {
+
+    public bool loadScene;
+    public string sceneName;
+
     // Start is called before the first frame update
     void Start () {
 
@@ -11,7 +15,7 @@ public class EFChangeScence : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-
+        if (loadScene) { loadScene = false; LoadScene (sceneName); }
     }
 
 
