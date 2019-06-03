@@ -7,6 +7,7 @@ using static FlowEvent;
 
 
 public class FlowManager : MonoBehaviour {
+    public GameObject obj;
     public GameObject currentFlow;
     public GameObject previousFlow;
 
